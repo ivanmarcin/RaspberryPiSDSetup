@@ -44,6 +44,7 @@ Or...
   Insert your SD card into the Raspberry Pi and turn it On. Enjoy!
 
 - Can I modify the files once the image is written?
+
   Yes! but the image (unless it's a custom image) will create 2 shares on the SD. one of them will be a linux EXT partition
   you'll need to install :
   
@@ -52,8 +53,10 @@ Or...
   - Fue-Ext2 - http://sourceforge.net/projects/fuse-ext2/
 
 - Why id <tt> default </tt> downloading this huge file?
+
   It is downloading the base preconfigured image file. It's around 500MB (Just to take in consideration, in case you are tethering or still on AOL dialing up)
 
 - Will copying the image to the SD Card take too long?
+
   Yes. Expanding to the SD takes a while, could take several minutes. On the bright side: This is the perfect moment to brew a Legendary Cup of Coffee
   
