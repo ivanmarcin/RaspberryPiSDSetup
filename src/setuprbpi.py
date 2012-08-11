@@ -33,6 +33,9 @@ from subprocess import call
 #For the colored output.
 screen = terminal.get_terminal()
 
+#path to the preconfigured image
+remoteImagePath = "http://files.velocix.com/c1410/images/raspbian/2012-07-15-wheezy-raspbian/2012-07-15-wheezy-raspbian.zip"
+raspberryPiImageFileName = "2012-07-15-wheezy-raspbian.zip"
 
 #Wrapper method to shorter color changes
 def Color(theColor) :
@@ -153,13 +156,14 @@ def RawCopyImageToSd(imageFile, deviceName):
 	print "Executing : %s" % (command)
 	output = getoutput(command)
 
-	Color("BLUE")
-	if ( len(output) <1 ):
-		print ("Copy Done!")
-	else:
+	if( "Resource busy" in output) :
 		Color("RED")
-		print("It appears there's been an error copying the file into the device.")
-		print(output)
+		print "There's more than one partition on the SD Card. unmount or rerun script"		
+		print output
+		sys.exit(-1)
+	else:
+		Color("BLUE")
+		print output
 
 def GrabImage(fileName):
 	
@@ -169,9 +173,13 @@ def GrabImage(fileName):
 
 		Color("GREEN")
 
-		call(["wget", "http://files.velocix.com/c1410/images/raspbian/2012-07-15-wheezy-raspbian/2012-07-15-wheezy-raspbian.zip"] )
+		call(["wget", remoteImagePath] )
 		
-		fileName = './raspberrypi-fedora-remix-14-r1.img'
+		Color("BROWN")
+		call(["unzip", "-o",raspberryPiImageFileName] )
+		
+		fileName = "./" + raspberryPiImageFileName[:-3] + "img"
+		#fileName = './raspberrypi-fedora-remix-14-r1.img'
 
 	Color("WHITE")	
 	if( not os.path.exists(fileName)):
@@ -193,6 +201,11 @@ def SetupPi(imageParam):
 
 	UnmountSdCard(SDCard[0])
 	RawCopyImageToSd(ImageFile, SDCard[1])
+
+	Color("YELLOW")
+	print "\nAll done!"
+	Color("BLUE")
+	print "Plug the SD card into your RaspberryPi and enjoy!"
 	pass
 
 
